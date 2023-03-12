@@ -1,5 +1,6 @@
 
 const div = document.querySelector('.threejs');
+const camerarotate = document.querySelector('.camerarotate');
 let mesh;
 
 document.forms[0].addEventListener('change', (e) => {
@@ -20,6 +21,16 @@ document.forms[4].addEventListener('change', (e) => {
     hemiLight.intensity=e.target.value;
     
 })
+document.forms[5].addEventListener('click', (e) => {
+    if(Math.abs(e.target.value)==1){
+    scene.rotation.y+=e.target.value*0.1;  
+    } 
+})
+document.forms[6].addEventListener('click', (e) => {
+    if(Math.abs(e.target.value)==1){
+    camera.position.z+=e.target.value*-0.1;   
+    }
+})
 
 
 window.addEventListener('resize', onWindowResize);
@@ -35,8 +46,8 @@ function onWindowResize() {
 
 const clock = new THREE.Clock();
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(70, div.clientWidth / div.clientHeight, 0.1, 100);
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(70, div.clientWidth / div.clientHeight, 0.1, 100);
 camera.position.set(0, 0.7, 3);
 cameraTarget = new THREE.Vector3(0, 0.4, 0);
 
