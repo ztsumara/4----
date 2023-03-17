@@ -10,26 +10,37 @@ document.forms[1].addEventListener('change', (e) => {
     pyramid.material.color.set(e.target.value);
 })
 document.forms[2].addEventListener('change', (e) => {
-    directionalLight.intensity=e.target.value;
-    
+    directionalLight.intensity = e.target.value;
+
 })
 document.forms[3].addEventListener('change', (e) => {
-    directionalLight1.intensity=e.target.value;
-    
+    directionalLight1.intensity = e.target.value;
+
 })
 document.forms[4].addEventListener('change', (e) => {
-    hemiLight.intensity=e.target.value;
-    
+    hemiLight.intensity = e.target.value;
+
 })
-document.forms[5].addEventListener('click', (e) => {
-    if(Math.abs(e.target.value)==1){
-    scene.rotation.y+=e.target.value*0.1;  
-    } 
-})
-document.forms[6].addEventListener('click', (e) => {
-    if(Math.abs(e.target.value)==1){
-    camera.position.z+=e.target.value*-0.1;   
+let flag = 0;
+let flag1 = 0;
+const fun = (e, flag) => {
+    while (flag == 1) {
+        return scene.rotation.y += e.target.value * 0.1;
+
     }
+}
+document.forms[5].addEventListener('mousedown', (e) => {
+    return flag = e.target.value;
+})
+document.forms[5].addEventListener('mouseup', () => {
+    return flag = 0;
+})
+
+document.forms[6].addEventListener('mousedown', (e) => {
+    return flag1 = e.target.value;
+})
+document.forms[6].addEventListener('mouseup', () => {
+    return flag1 = 0;
 })
 
 
@@ -37,10 +48,10 @@ window.addEventListener('resize', onWindowResize);
 
 function onWindowResize() {
 
-  camera.aspect = div.clientWidth / div.clientHeight;
-  camera.updateProjectionMatrix();
+    camera.aspect = div.clientWidth / div.clientHeight;
+    camera.updateProjectionMatrix();
 
-  renderer.setSize(div.clientWidth, div.clientHeight);
+    renderer.setSize(div.clientWidth, div.clientHeight);
 
 }
 
@@ -51,7 +62,7 @@ let camera = new THREE.PerspectiveCamera(70, div.clientWidth / div.clientHeight,
 camera.position.set(0, 0.7, 3);
 cameraTarget = new THREE.Vector3(0, 0.4, 0);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, div });
 renderer.setSize(div.clientWidth, div.clientHeight);
 
 div.appendChild(renderer.domElement);
@@ -90,70 +101,70 @@ directionalLight1.shadow.camera.right = 10;
 scene.add(directionalLight1);
 
 const plane = new THREE.Mesh(
-  new THREE.PlaneGeometry(4000, 4000),
-  new THREE.MeshPhongMaterial({ color:0x808080, dithering: true })
+    new THREE.PlaneGeometry(4000, 4000),
+    new THREE.MeshPhongMaterial({ color: 0x808080, dithering: true })
 );
 plane.rotation.x = - Math.PI / 2;
 plane.receiveShadow = true;
 scene.add(plane);
 const loader = new STLLoader();
 var geometry1 = new THREE.BufferGeometry();
-const vertices1 = new Float32Array( [
-    -2.0, -2.0,  2.0,
-    2.0, -2.0,  2.0,
-    2.0,  2.0,  2.0,
+const vertices1 = new Float32Array([
+    -2.0, -2.0, 2.0,
+    2.0, -2.0, 2.0,
+    2.0, 2.0, 2.0,
 
-    2.0,  2.0,  2.0,
-    -2.0,  2.0,  2.0,
-    -2.0, -2.0,  2.0
-] );
-geometry1.setAttribute('position', new THREE.Float32BufferAttribute( vertices1, 3 ));
+    2.0, 2.0, 2.0,
+    -2.0, 2.0, 2.0,
+    -2.0, -2.0, 2.0
+]);
+geometry1.setAttribute('position', new THREE.Float32BufferAttribute(vertices1, 3));
 geometry1.computeVertexNormals();
 
-const material1 = new THREE.MeshPhongMaterial( { color: 'grey', side: THREE.DoubleSide} );
-const mesh1 = new THREE.Mesh( geometry1, material1 );
-mesh1.receiveShadow=true;
-mesh1.position.z=-2.4;
-scene.add( mesh1 );
+const material1 = new THREE.MeshPhongMaterial({ color: 'grey', side: THREE.DoubleSide });
+const mesh1 = new THREE.Mesh(geometry1, material1);
+mesh1.receiveShadow = true;
+mesh1.position.z = -2.4;
+scene.add(mesh1);
 
 var geometry2 = new THREE.BufferGeometry();
-const vertices2 = new Float32Array( [
+const vertices2 = new Float32Array([
     0, 0, 0.5,
-    0.5, 0,  0,
-    -0.25,  -Math.sqrt(0.5*0.5-0.25*0.25),  0,
+    0.5, 0, 0,
+    -0.25, -Math.sqrt(0.5 * 0.5 - 0.25 * 0.25), 0,
 
     0, 0, 0.5,
-    0.5, 0,  0,
-    -0.25,  Math.sqrt(0.5*0.5-0.25*0.25),  0,
+    0.5, 0, 0,
+    -0.25, Math.sqrt(0.5 * 0.5 - 0.25 * 0.25), 0,
 
     0, 0, 0.5,
-     -0.25,  -Math.sqrt(0.5*0.5-0.25*0.25),  0,
-     -0.25,  Math.sqrt(0.5*0.5-0.25*0.25),  0,
+    -0.25, -Math.sqrt(0.5 * 0.5 - 0.25 * 0.25), 0,
+    -0.25, Math.sqrt(0.5 * 0.5 - 0.25 * 0.25), 0,
 
-     0.5, 0,  0,
-     -0.25,  -Math.sqrt(0.5*0.5-0.25*0.25),  0,
-     -0.25,  Math.sqrt(0.5*0.5-0.25*0.25),  0
-] );
-geometry2.setAttribute('position', new THREE.Float32BufferAttribute( vertices2, 3 ));
+    0.5, 0, 0,
+    -0.25, -Math.sqrt(0.5 * 0.5 - 0.25 * 0.25), 0,
+    -0.25, Math.sqrt(0.5 * 0.5 - 0.25 * 0.25), 0
+]);
+geometry2.setAttribute('position', new THREE.Float32BufferAttribute(vertices2, 3));
 geometry2.computeVertexNormals();
-const material2 = new THREE.MeshPhongMaterial( { color: 'grey', side:THREE.DoubleSide} );
-const pyramid = new THREE.Mesh( geometry2, material2 );
-pyramid.castShadow=true;
-pyramid.position.x=0.5;
-pyramid.position.y=0.5;
+const material2 = new THREE.MeshPhongMaterial({ color: 'grey', side: THREE.DoubleSide });
+const pyramid = new THREE.Mesh(geometry2, material2);
+pyramid.castShadow = true;
+pyramid.position.x = 0.5;
+pyramid.position.y = 0.5;
 
 
-scene.add( pyramid );
+scene.add(pyramid);
 
 const boxWidth = 0.5;
 const boxHeight = 0.5;
 const boxDepth = 0.5;
 const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
 
-const material = new THREE.MeshPhongMaterial({color: 'grey'});  // greenish blue
+const material = new THREE.MeshPhongMaterial({ color: 'grey' });  // greenish blue
 
 const cube = new THREE.Mesh(geometry, material);
-cube.castShadow=true;
+cube.castShadow = true;
 scene.add(cube);
 cube.position.y = 0.5;
 cube.position.x = -0.5;
@@ -161,16 +172,23 @@ camera.position.z = 2;
 
 function render(time) {
     time *= 0.001;  // конвертировать время в секунды
-   
+    if (Math.abs(flag) == 1) {
+
+        scene.rotation.y += 0.02 * flag
+    }
+    if (Math.abs(flag1) == 1) {
+
+        camera.position.z += 0.02 * flag1 * -1
+    }
     cube.rotation.x = time;
     cube.rotation.y = time;
 
     pyramid.rotation.x = time;
     pyramid.rotation.z = time;
-  
-   
+
+
     renderer.render(scene, camera);
-   
+
     requestAnimationFrame(render);
-  }
-  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
